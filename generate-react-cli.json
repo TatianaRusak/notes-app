@@ -1,0 +1,19 @@
+{
+  "usesTypeScript": true,
+  "usesCssModule": true,
+  "cssPreprocessor": "scss",
+  "testLibrary": "None",
+  "component": {
+    "customTemplates": {
+      "component": "templates/TemplateName.tsx",
+      "style": "templates/TemplateName.module.scss"
+    },
+    "default": {
+      "path": "src/components",
+      "withStyle": true,
+      "withTest": false,
+      "withStory": false,
+      "withLazy": false
+    }
+  }
+}

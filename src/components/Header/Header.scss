@@ -1,0 +1,12 @@
+.header {
+  background-color: rgb(126, 23, 126);
+  height: 60px;
+  color: rgb(255, 255, 255);
+  line-height: 50px;
+
+  .header-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
