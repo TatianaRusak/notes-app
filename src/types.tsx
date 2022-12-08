@@ -8,6 +8,11 @@ export interface INote {
 export interface IInitialState {
   notes: INote[];
   error: string;
+  selectedNote: INote | null;
+  formError: {
+    errorTitle: boolean;
+    errorText: boolean;
+  };
 }
 
 export type Tag = {

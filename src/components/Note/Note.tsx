@@ -1,8 +1,9 @@
 import React from 'react';
 import { INote } from '../../types';
 import './Note.scss';
-import { removeNote } from '../../store/noteSlice';
+import { removeNote, selectNote } from '../../store/noteSlice';
 import { useDispatch } from 'react-redux';
+import useTypedSelector from '../../hooks/useTypedSelector';
 interface INoteProps {
   note: INote;
 }
@@ -10,20 +11,25 @@ interface INoteProps {
 const Note = ({ note }: INoteProps) => {
   const dispatch = useDispatch();
 
-  const deleteNote = () => {
+  const deleteNote = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     dispatch(removeNote(note.id));
+    dispatch(selectNote(null));
+  };
+
+  const onClickNoteHandle = () => {
+    dispatch(selectNote(note));
   };
 
   return (
-    <div className="note">
-      <button className="trash-btn">
+    <div className="note" onClick={onClickNoteHandle}>
+      <button className="trash-btn" onClick={(e) => deleteNote(e)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          onClick={deleteNote}
         >
           <path
             strokeLinecap="round"

@@ -4,6 +4,11 @@ import { IInitialState, INote } from '../types';
 const initialState: IInitialState = {
   notes: [],
   error: '',
+  selectedNote: null,
+  formError: {
+    errorTitle: false,
+    errorText: false,
+  },
 };
 
 export const fetchNotes = createAsyncThunk<INote[], undefined, { rejectValue: string }>(
@@ -22,16 +27,26 @@ const noteSlice = createSlice({
     addNote(state, action) {
       state.notes.push(action.payload);
     },
-    editNote(state, action) {
+    updateNote(state, action) {
       state.notes.map((note) => {
         if (note.id === action.payload.id) {
-          return action.payload;
+          note.title = action.payload.title;
+          note.text = action.payload.text;
         }
         return note;
       });
     },
     removeNote(state, action) {
       state.notes = state.notes.filter((note) => note.id !== action.payload);
+    },
+    selectNote(state, action) {
+      state.selectedNote = action.payload;
+    },
+    setTitleError(state, action) {
+      state.formError.errorTitle = action.payload;
+    },
+    setTextError(state, action) {
+      state.formError.errorText = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -49,6 +64,7 @@ const noteSlice = createSlice({
   },
 });
 
-export const { addNote, editNote, removeNote } = noteSlice.actions;
+export const { addNote, updateNote, removeNote, selectNote, setTitleError, setTextError } =
+  noteSlice.actions;
 
 export default noteSlice.reducer;

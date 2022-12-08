@@ -1,56 +1,84 @@
 import './NoteMaker.scss';
-import { useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addNote } from '../../store/noteSlice';
+import {
+  addNote,
+  updateNote,
+  setTitleError,
+  setTextError,
+  selectNote,
+} from '../../store/noteSlice';
+import { nanoid } from 'nanoid';
+import useTypedSelector from '../../hooks/useTypedSelector';
 
 const NoteMaker = () => {
-  const titleRef = useRef<HTMLInputElement>(null);
-  const textRef = useRef<HTMLTextAreaElement>(null);
-  const [errorTitle, setErrorTitle] = useState(false);
-  const [errorText, setErrorText] = useState(false);
+  const selectedNote = useTypedSelector((state) => state.selectedNote);
+  const formError = useTypedSelector((state) => state.formError);
+
+  const [titleValue, setTitleValue] = useState(selectedNote?.title || '');
+  const [textValue, setTextValue] = useState(selectedNote?.text || '');
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    setTitleValue(selectedNote?.title || '');
+    setTextValue(selectedNote?.text || '');
+  }, [selectedNote]);
+
   const saveNote = () => {
-    if (titleRef.current?.value === '') {
-      setErrorTitle(true);
+    if (titleValue === '') {
+      dispatch(setTitleError(true));
     } else {
-      setErrorTitle(false);
+      dispatch(setTitleError(false));
     }
-    if (textRef.current?.value === '') {
-      setErrorText(true);
+    if (textValue === '') {
+      dispatch(setTextError(true));
     } else {
-      setErrorText(false);
+      dispatch(setTextError(false));
     }
 
-    if (titleRef.current?.value && textRef.current?.value) {
+    if (selectedNote) {
       dispatch(
-        addNote({
-          id: new Date().toDateString(),
-          title: titleRef.current?.value,
-          text: textRef.current?.value,
+        updateNote({
+          id: selectedNote.id,
+          title: titleValue,
+          text: textValue,
           tags: [],
         })
       );
-      titleRef.current.value = '';
-      textRef.current.value = '';
+      dispatch(selectNote(null));
+    }
+
+    if (!selectedNote && titleValue && textValue) {
+      dispatch(
+        addNote({
+          id: nanoid(),
+          title: titleValue,
+          text: textValue,
+          tags: [],
+        })
+      );
+      setTitleValue('');
+      setTextValue('');
     }
   };
 
   const cancel = () => {
-    setErrorTitle(false);
-    setErrorText(false);
+    dispatch(setTitleError(false));
+    dispatch(setTextError(false));
 
-    titleRef.current!.value = '';
-    textRef.current!.value = '';
+    setTitleValue('');
+    setTextValue('');
   };
 
-  const onChangeTitleHandle = () => {
-    setErrorTitle(false);
+  const onChangeTitleHandle = (e: React.FormEvent<HTMLInputElement>) => {
+    setTitleValue(e.currentTarget.value);
+    dispatch(setTitleError(false));
   };
 
-  const onChangeTextHandle = () => {
-    setErrorText(false);
+  const onChangeTextHandle = (e: React.FormEvent<HTMLTextAreaElement>) => {
+    setTextValue(e.currentTarget.value);
+    dispatch(setTextError(false));
   };
 
   return (
@@ -59,25 +87,29 @@ const NoteMaker = () => {
         Title
         <input
           type="text"
-          ref={titleRef}
-          onChange={onChangeTitleHandle}
+          value={titleValue}
+          onChange={(e) => onChangeTitleHandle(e)}
           className="note__maker-input"
           required
           placeholder="Title"
         />
-        <p className="error-message">{errorTitle && <span>Enter note&apos;s title</span>}</p>
+        <p className="error-message">
+          {formError.errorTitle && <span>Enter note&apos;s title</span>}
+        </p>
       </label>
       <label>
         Text
         <textarea
           rows={8}
-          ref={textRef}
-          onChange={onChangeTextHandle}
+          value={textValue}
+          onChange={(e) => onChangeTextHandle(e)}
           className="note__maker-input"
           required
           placeholder="Note's text"
         />
-        <p className="error-message">{errorText && <span>Enter note&apos;s text</span>}</p>
+        <p className="error-message">
+          {formError.errorText && <span>Enter note&apos;s text</span>}
+        </p>
       </label>
 
       <div className="note__maker-btns">
