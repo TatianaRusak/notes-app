@@ -1,0 +1,43 @@
+.note__maker {
+  width: 300px;
+  height: 100vh;
+  background: lighten(rgb(126, 23, 126), 60%);
+  padding: 20px 40px 10px;
+  label {
+    text-transform: uppercase;
+  }
+  &-input,
+  textarea
+   {
+    display: block;
+    width: 100%;
+    margin-bottom: 2px;
+    outline: none;
+    padding: 5px;
+    resize: vertical;
+  }
+  &-btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+    input {
+      width: 46%;
+      padding: 6px 20px;
+      background: rgb(255, 251, 4);
+      border: none;
+      border-radius: 6px;
+      transition: all 0.3s;
+      &:hover {
+        cursor: pointer;
+        background:  darken($color:  rgb(255, 251, 4), $amount: 6%);
+      }
+    }
+  }
+  .error-message {
+    height: 20px;
+    color: red;
+    text-transform: none;
+    font-size: 10px;
+    text-align: center;
+  }
+}

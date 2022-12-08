@@ -1,8 +1,10 @@
 .notesBoarder {
   &__wrapper {
+    list-style-type: none;
     display: flex;
     flex-direction: row;
+    gap: 30px;
     flex-wrap: wrap;
-    padding: 20px 0;
+    padding: 20px ;
   }
 }

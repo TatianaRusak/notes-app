@@ -23,6 +23,7 @@
     "prettier": "^2.6.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.3",
     "web-vitals": "^2.1.4"
@@ -32,7 +33,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "comp": "generate-react component"
+    "comp": "generate-react component",
+    "server": "json-server --watch server/db.json -p 3001"
   },
   "eslintConfig": {
     "extends": [
@@ -53,8 +55,10 @@
     ]
   },
   "devDependencies": {
+    "@reduxjs/toolkit": "^1.9.1",
     "@types/node": "^18.11.10",
     "generate-react-cli": "^8.0.1",
+    "json-server": "^0.17.1",
     "react-hook-form": "^7.40.0",
     "sass": "^1.56.1"
   }

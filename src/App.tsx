@@ -1,21 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import './App.css';
 import Header from './components/Header/Header';
-import ModalForm from './components/ModalForm/ModalForm';
-import NotesBoarder from './components/NotesBoarder/NotesBoarder';
+import NoteMaker from './components/NoteMaker/NoteMaker';
+import NotesBoarder from './components/NotesBoarder/NotesBoard';
+import { fetchNotes } from './store/noteSlice';
+import { AppDispatch } from './store/store';
 
 function App() {
-  const saveNote = () => {
-    console.log('save note');
-  };
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchNotes());
+  }, [dispatch]);
 
   return (
     <div className="App">
       <Header />
 
       <main className="main">
+        <NoteMaker />
         <NotesBoarder />
-        <ModalForm modalSubmit={saveNote} />
       </main>
     </div>
   );

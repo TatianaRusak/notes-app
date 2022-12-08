@@ -8,3 +8,9 @@
   max-width: 1300px;
   margin: 0 auto;
 }
+
+.main {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
