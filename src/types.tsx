@@ -5,7 +5,7 @@ export interface INote {
   tags: Tag[];
 }
 
-export interface IinitialState {
+export interface IInitialState {
   notes: INote[];
   error: string;
 }

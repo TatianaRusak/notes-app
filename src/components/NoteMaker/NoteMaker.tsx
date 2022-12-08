@@ -26,6 +26,7 @@ const NoteMaker = () => {
     if (titleRef.current?.value && textRef.current?.value) {
       dispatch(
         addNote({
+          id: new Date().toDateString(),
           title: titleRef.current?.value,
           text: textRef.current?.value,
           tags: [],

@@ -1,5 +1,6 @@
 .note__maker {
   width: 300px;
+  min-width: 300px;
   height: 100vh;
   background: lighten(rgb(126, 23, 126), 60%);
   padding: 20px 40px 10px;
@@ -19,7 +20,7 @@
   &-btns {
     display: flex;
     justify-content: space-between;
-    margin-top: 60px;
+    margin-top: 40px;
     input {
       width: 46%;
       padding: 6px 20px;
@@ -27,9 +28,11 @@
       border: none;
       border-radius: 6px;
       transition: all 0.3s;
+      box-shadow: 0px 0px 10px 2px rgba(34, 60, 80, 0.2);
       &:hover {
         cursor: pointer;
-        background:  darken($color:  rgb(255, 251, 4), $amount: 6%);
+        background: rgb(126, 23, 126);
+        color: white;
       }
     }
   }

@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { IinitialState, INote } from '../types';
+import { IInitialState, INote } from '../types';
 
-const initialState: IinitialState = {
+const initialState: IInitialState = {
   notes: [],
   error: '',
 };
@@ -11,7 +11,6 @@ export const fetchNotes = createAsyncThunk<INote[], undefined, { rejectValue: st
   async function () {
     const responce = await fetch('http://localhost:3001/notes');
     const data = await responce.json();
-    console.log('data', data);
     return data;
   }
 );
@@ -32,19 +31,17 @@ const noteSlice = createSlice({
       });
     },
     removeNote(state, action) {
-      state.notes = state.notes.filter((note) => note.id !== action.payload.id);
+      state.notes = state.notes.filter((note) => note.id !== action.payload);
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchNotes.pending, (state) => {
         state.error = '';
-        console.log('pending');
       })
       .addCase(fetchNotes.fulfilled, (state, action) => {
         state.notes = action.payload;
         state.error = '';
-        console.log('fulfilled');
       })
       .addCase(fetchNotes.rejected, (state, action) => {
         state.error = action.payload as string;

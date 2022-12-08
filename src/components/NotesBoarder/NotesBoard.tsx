@@ -6,8 +6,6 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 const NotesBoarder = () => {
   const notes = useTypedSelector((state) => state.notes);
 
-  console.log('notes', notes);
-
   return (
     <div className="notesBoarder">
       <div className="container">
