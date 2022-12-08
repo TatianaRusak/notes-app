@@ -3,7 +3,6 @@ import { INote } from '../../types';
 import './Note.scss';
 import { removeNote, selectNote } from '../../store/noteSlice';
 import { useDispatch } from 'react-redux';
-import useTypedSelector from '../../hooks/useTypedSelector';
 interface INoteProps {
   note: INote;
 }

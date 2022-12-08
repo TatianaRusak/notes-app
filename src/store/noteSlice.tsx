@@ -1,8 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { IInitialState, INote } from '../types';
+import { getNotesFromLS } from '../utils/functions';
+
+const persistedNotes = getNotesFromLS();
 
 const initialState: IInitialState = {
-  notes: [],
+  notes: persistedNotes,
   error: '',
   selectedNote: null,
   formError: {
@@ -20,7 +23,7 @@ export const fetchNotes = createAsyncThunk<INote[], undefined, { rejectValue: st
   }
 );
 
-const noteSlice = createSlice({
+export const noteSlice = createSlice({
   name: 'notes',
   initialState,
   reducers: {
