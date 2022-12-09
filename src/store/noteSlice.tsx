@@ -54,6 +54,9 @@ export const noteSlice = createSlice({
     setTextError(state, action) {
       state.formError.errorText = action.payload;
     },
+    addTag(state, action) {
+      state.tags.push(action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -70,7 +73,7 @@ export const noteSlice = createSlice({
   },
 });
 
-export const { addNote, updateNote, removeNote, selectNote, setTitleError, setTextError } =
+export const { addNote, updateNote, removeNote, selectNote, setTitleError, setTextError, addTag } =
   noteSlice.actions;
 
 export default noteSlice.reducer;

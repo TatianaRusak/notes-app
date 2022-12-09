@@ -7,6 +7,7 @@ import {
   setTitleError,
   setTextError,
   selectNote,
+  addTag,
 } from '../../store/noteSlice';
 import { nanoid } from 'nanoid';
 import useTypedSelector from '../../hooks/useTypedSelector';
@@ -16,6 +17,7 @@ import { ITag } from '../../types';
 const NoteMaker = () => {
   const selectedNote = useTypedSelector((state) => state.selectedNote);
   const formError = useTypedSelector((state) => state.formError);
+  const allTags = useTypedSelector((state) => state.tags);
 
   const [titleValue, setTitleValue] = useState(selectedNote?.title || '');
   const [textValue, setTextValue] = useState(selectedNote?.text || '');
@@ -88,6 +90,15 @@ const NoteMaker = () => {
     dispatch(setTextError(false));
   };
 
+  const onCreateOption = (label: string) => {
+    const newTag = { id: label, label };
+    dispatch(addTag(newTag));
+    setSelectedTags((prev) => [...prev, newTag]);
+    console.log('newTag', newTag);
+  };
+
+  // console.log(state.tags);
+
   return (
     <div className="note__maker">
       <label>
@@ -131,8 +142,12 @@ const NoteMaker = () => {
               })
             );
           }}
+          onCreateOption={onCreateOption}
+          options={allTags.map((tag) => {
+            return { label: tag.label, value: tag.id };
+          })}
           isMulti
-          placeholder={'Create tags'}
+          placeholder={'Add tags'}
         />
       </div>
 
