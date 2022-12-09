@@ -20,6 +20,13 @@ const Note = ({ note }: INoteProps) => {
     dispatch(selectNote(note));
   };
 
+  const listTags = note.tags.map((tag) => (
+    <li className="note__tag-item" key={tag.id}>
+      {tag.label}
+    </li>
+  ));
+  console.log(note.tags);
+
   return (
     <div className="note" onClick={onClickNoteHandle}>
       <button className="trash-btn" onClick={(e) => deleteNote(e)}>
@@ -40,6 +47,7 @@ const Note = ({ note }: INoteProps) => {
 
       <h4 className="note__title">{note.title}</h4>
       <p className="note__text">{note.text}</p>
+      <ul className="note__tags">{listTags}</ul>
     </div>
   );
 };

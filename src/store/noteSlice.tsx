@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { IInitialState, INote } from '../types';
-import { getNotesFromLS } from '../utils/functions';
+import { getDataFromLS } from '../utils/functions';
 
-const persistedNotes = getNotesFromLS();
+const existingNotes = getDataFromLS('NOTES');
+const availableTags = getDataFromLS('TAGS');
 
 const initialState: IInitialState = {
-  notes: persistedNotes,
+  notes: existingNotes,
+  tags: availableTags,
   error: '',
   selectedNote: null,
   formError: {

@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { setNotesToLS } from '../utils/functions';
+import { setDataToLS } from '../utils/functions';
 import noteReducer from './noteSlice';
 
 export const store = configureStore({
@@ -7,7 +7,8 @@ export const store = configureStore({
 });
 
 store.subscribe(() => {
-  setNotesToLS(store.getState().notes);
+  setDataToLS('NOTES', store.getState().notes);
+  setDataToLS('TAGS', store.getState().tags);
 });
 
 export type AppDispatch = typeof store.dispatch;

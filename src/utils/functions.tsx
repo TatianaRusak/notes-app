@@ -1,14 +1,16 @@
-import { INote } from '../types';
+import { INote, ITag } from '../types';
 
-export const getNotesFromLS = () => {
-  const notes = localStorage.getItem('notes');
+type dataKey = 'NOTES' | 'TAGS';
 
-  if (notes) {
-    return JSON.parse(notes);
+export const getDataFromLS = (key: dataKey) => {
+  const data = localStorage.getItem(key);
+
+  if (data) {
+    return JSON.parse(data);
   }
   return [];
 };
 
-export const setNotesToLS = (notes: INote[]) => {
-  localStorage.setItem('notes', JSON.stringify(notes));
+export const setDataToLS = (key: dataKey, data: INote[] | ITag[]) => {
+  localStorage.setItem(key, JSON.stringify(data));
 };

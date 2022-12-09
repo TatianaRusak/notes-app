@@ -1,18 +1,36 @@
 .note {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 300px;
-  height: 100px;
+  height: 138px;
   background: rgb(245, 242, 209);
   padding: 6px;
   border-radius: 6px;
   box-shadow: 0px 0px 10px 2px rgba(34, 60, 80, 0.2);
   cursor: pointer;
   &__text {
+    flex-grow: 2;
     display: -webkit-box;
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+  }
+  &__tags {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 6px 0 0;
+  }
+  &__tag-item {
+    background: lighten(rgb(126, 23, 126), 50%);
+    padding: 5px 7px;
+    border-radius: 6px;
+    line-height: 18px;
+    // color: white;
   }
   .trash-btn {
     position: absolute;
