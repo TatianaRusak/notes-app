@@ -37,6 +37,7 @@ export const noteSlice = createSlice({
         if (note.id === action.payload.id) {
           note.title = action.payload.title;
           note.text = action.payload.text;
+          note.tags = action.payload.tags;
         }
         return note;
       });

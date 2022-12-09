@@ -26,6 +26,7 @@ const NoteMaker = () => {
   useEffect(() => {
     setTitleValue(selectedNote?.title || '');
     setTextValue(selectedNote?.text || '');
+    setSelectedTags(selectedNote?.tags || []);
   }, [selectedNote]);
 
   const saveNote = () => {
@@ -50,6 +51,7 @@ const NoteMaker = () => {
         })
       );
       dispatch(selectNote(null));
+      setSelectedTags([]);
     }
 
     if (!selectedNote && titleValue && textValue) {
