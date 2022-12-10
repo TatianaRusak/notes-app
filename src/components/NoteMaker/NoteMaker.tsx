@@ -78,6 +78,7 @@ const NoteMaker = () => {
   const cancel = () => {
     dispatch(setTitleError(false));
     dispatch(setTextError(false));
+    dispatch(selectNote(null));
 
     setTitleValue('');
     setTextValue('');

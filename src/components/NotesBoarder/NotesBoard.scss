@@ -1,6 +1,7 @@
 .notesBoarder {
   width: 100%;
   &__wrapper {
+    height: 100%;
     list-style-type: none;
     display: flex;
     flex-direction: row;
