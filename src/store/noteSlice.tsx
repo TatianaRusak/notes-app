@@ -7,6 +7,8 @@ const availableTags = getDataFromLS('TAGS');
 
 const initialState: IInitialState = {
   notes: existingNotes,
+  filteredNotes: [],
+  noMatches: false,
   tags: availableTags,
   error: '',
   selectedNote: null,
@@ -38,6 +40,7 @@ export const noteSlice = createSlice({
           note.title = action.payload.title;
           note.text = action.payload.text;
           note.tags = action.payload.tags;
+          note.tagsIds = action.payload.tagsIds;
         }
         return note;
       });
@@ -48,11 +51,17 @@ export const noteSlice = createSlice({
     selectNote(state, action) {
       state.selectedNote = action.payload;
     },
+    setFilteredNotes(state, action) {
+      state.filteredNotes = action.payload;
+    },
     setTitleError(state, action) {
       state.formError.errorTitle = action.payload;
     },
     setTextError(state, action) {
       state.formError.errorText = action.payload;
+    },
+    setNoMatches(state, action) {
+      state.noMatches = action.payload;
     },
     addTag(state, action) {
       state.tags.push(action.payload);
@@ -73,7 +82,16 @@ export const noteSlice = createSlice({
   },
 });
 
-export const { addNote, updateNote, removeNote, selectNote, setTitleError, setTextError, addTag } =
-  noteSlice.actions;
+export const {
+  addNote,
+  updateNote,
+  removeNote,
+  selectNote,
+  setTitleError,
+  setTextError,
+  addTag,
+  setFilteredNotes,
+  setNoMatches,
+} = noteSlice.actions;
 
 export default noteSlice.reducer;

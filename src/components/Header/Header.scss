@@ -1,12 +1,21 @@
 .header {
   background-color: rgb(126, 23, 126);;
   height: 60px;
-  color: rgb(255, 255, 255);
-  line-height: 50px;
-
-  .header-wrapper {
+  
+  &__wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
+  h1 {
+    color: rgb(255, 255, 255);
+    line-height: 30px;
+    padding: 10px 0;
+  }
+  &__tags-select {
+    line-height: 20px;
+    width: 50%;
   }
 }

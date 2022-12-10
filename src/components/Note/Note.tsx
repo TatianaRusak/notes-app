@@ -25,7 +25,6 @@ const Note = ({ note }: INoteProps) => {
       {tag.label}
     </li>
   ));
-  console.log(note.tags);
 
   return (
     <div className="note" onClick={onClickNoteHandle}>

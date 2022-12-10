@@ -23,6 +23,8 @@ const NoteMaker = () => {
   const [textValue, setTextValue] = useState(selectedNote?.text || '');
   const [selectedTags, setSelectedTags] = useState<ITag[]>([]);
 
+  const selectedTagsIds = selectedTags.map((tag) => tag.id);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -50,6 +52,7 @@ const NoteMaker = () => {
           title: titleValue,
           text: textValue,
           tags: selectedTags,
+          tagsIds: selectedTagsIds,
         })
       );
       dispatch(selectNote(null));
@@ -63,6 +66,7 @@ const NoteMaker = () => {
           title: titleValue,
           text: textValue,
           tags: selectedTags,
+          tagsIds: selectedTagsIds,
         })
       );
       setTitleValue('');
@@ -94,10 +98,7 @@ const NoteMaker = () => {
     const newTag = { id: label, label };
     dispatch(addTag(newTag));
     setSelectedTags((prev) => [...prev, newTag]);
-    console.log('newTag', newTag);
   };
-
-  // console.log(state.tags);
 
   return (
     <div className="note__maker">
@@ -130,7 +131,7 @@ const NoteMaker = () => {
         </p>
       </label>
 
-      <div className="tags-select">
+      <div>
         <CreatableReactSelect
           value={selectedTags.map((tag) => {
             return { label: tag.label, value: tag.id };
