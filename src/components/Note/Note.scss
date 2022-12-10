@@ -4,7 +4,7 @@
   flex-direction: column;
   justify-content: space-between;
   width: 300px;
-  height: 138px;
+  height: 200px;
   background: rgb(245, 242, 209);
   padding: 6px;
   border-radius: 6px;
@@ -24,6 +24,7 @@
   &__tags {
     list-style-type: none;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 8px;
     padding: 6px 0 0;

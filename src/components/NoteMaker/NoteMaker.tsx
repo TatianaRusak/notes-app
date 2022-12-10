@@ -22,6 +22,7 @@ const NoteMaker = () => {
   const [titleValue, setTitleValue] = useState(selectedNote?.title || '');
   const [textValue, setTextValue] = useState(selectedNote?.text || '');
   const [selectedTags, setSelectedTags] = useState<ITag[]>([]);
+  // const [manualTags, setManualTags] = useState<ITag[]>([]);
 
   const selectedTagsIds = selectedTags.map((tag) => tag.id);
 
@@ -32,6 +33,21 @@ const NoteMaker = () => {
     setTextValue(selectedNote?.text || '');
     setSelectedTags(selectedNote?.tags || []);
   }, [selectedNote]);
+
+  const createManualTags = () => {
+    const regTag = /#\w+/g;
+    const matchesText = (textValue.match(regTag) || []).map((match) => match.substring(1));
+    const manualTagsIds = [...matchesText];
+    const manualTags = manualTagsIds.map((tag) => ({
+      id: tag,
+      label: tag,
+    }));
+    console.log('manualTagsgggggg', manualTags);
+    return {
+      manualTags: [...manualTags],
+      manualTagsIds,
+    };
+  };
 
   const saveNote = () => {
     if (titleValue === '') {
@@ -46,13 +62,17 @@ const NoteMaker = () => {
     }
 
     if (selectedNote) {
+      const manualTags = createManualTags().manualTags;
+      const allKindsOfTags = [...selectedTags, ...manualTags];
+      const manualTagsIds = createManualTags().manualTagsIds;
+
       dispatch(
         updateNote({
           id: selectedNote.id,
           title: titleValue,
           text: textValue,
-          tags: selectedTags,
-          tagsIds: selectedTagsIds,
+          tags: allKindsOfTags,
+          tagsIds: [...selectedTagsIds, ...manualTagsIds],
         })
       );
       dispatch(selectNote(null));
@@ -60,13 +80,19 @@ const NoteMaker = () => {
     }
 
     if (!selectedNote && titleValue && textValue) {
+      const manualTags = createManualTags().manualTags;
+      const allKindsOfTags = [...selectedTags, ...manualTags];
+      const manualTagsIds = createManualTags().manualTagsIds;
+      console.log('manualTags', manualTags);
+      console.log('manualTagsIds', manualTagsIds);
+      console.log('allKindsOfTags', allKindsOfTags);
       dispatch(
         addNote({
           id: nanoid(),
           title: titleValue,
           text: textValue,
-          tags: selectedTags,
-          tagsIds: selectedTagsIds,
+          tags: allKindsOfTags,
+          tagsIds: [...selectedTagsIds, ...manualTagsIds],
         })
       );
       setTitleValue('');
