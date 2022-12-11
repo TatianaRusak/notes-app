@@ -4,6 +4,20 @@
   box-sizing: border-box;
 }
 
+html, 
+body, #root {
+  height: 100%;
+}
+
+.App {
+  display: grid;
+  min-height: 100%;
+  grid-template-rows: 60px 2fr 60px;
+  @media (max-width: 576px) {
+    display: block;
+  }
+}
+
 .container {
   max-width: 1550px;
   margin: 0 auto;
@@ -18,5 +32,6 @@
   @media (max-width: 576px) {
     flex-direction: column;
     gap: 10px;
+    min-height: 100%;
   }
 }

@@ -1,0 +1,27 @@
+.footer {
+  height: 60px;
+  background: rgb(126, 23, 126);
+  &__wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 50px;
+    align-items: center;
+    color: white;
+    font-weight: 700;
+    font-size: 20px;
+    @media (max-width: 576px) {
+      gap: 30px;
+    }
+  }
+  .github-link {
+    color: inherit;
+    font-size: 16px;
+    text-decoration: none;
+  }
+  .github-link-img {
+    width: 30px;
+    height: auto;
+  }
+}

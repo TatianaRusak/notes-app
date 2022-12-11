@@ -2,7 +2,7 @@
   font-size: 14px;
   width: 400px;
   min-width: 400px;
-  height: 100vh;
+  min-height: 100%;
   background: lighten(rgb(126, 23, 126), 60%);
   padding: 20px 40px 10px;
   @media (max-width: 768px) {
