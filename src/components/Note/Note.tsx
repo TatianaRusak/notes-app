@@ -29,6 +29,10 @@ const Note = ({ note }: INoteProps) => {
     </li>
   ));
 
+  const hideSharps = (text: string) => {
+    return text.split('#').join('<span>#</span>');
+  };
+
   return (
     <div
       className={selectedNote?.id === note.id ? 'note active' : 'note'}
@@ -51,7 +55,7 @@ const Note = ({ note }: INoteProps) => {
       </button>
 
       <h4 className="note__title">{note.title}</h4>
-      <p className="note__text">{note.text}</p>
+      <p className="note__text" dangerouslySetInnerHTML={{ __html: hideSharps(note.text) }} />
       <ul className="note__tags">{listTags}</ul>
     </div>
   );

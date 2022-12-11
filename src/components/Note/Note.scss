@@ -24,6 +24,9 @@
     text-overflow: ellipsis;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+    & span {
+      font-size: 0;
+    }
   }
   &__tags {
     list-style-type: none;

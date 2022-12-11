@@ -151,10 +151,9 @@ const NoteMaker = () => {
       <label htmlFor="note-text">Text</label>
       <div className="note__maker-input textarea" id="note-text">
         <HighlightWithinTextarea
-          highlight={createNewTagIds()}
+          highlight={createNewTagIds().map((tagId) => `#${tagId}`)}
           value={textValue}
           onChange={(value) => onChangeTextHandle(value)}
-          // required
           placeholder="Note's text"
         />
       </div>
