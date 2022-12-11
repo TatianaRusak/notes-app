@@ -22,9 +22,6 @@ const NoteMaker = () => {
   const [titleValue, setTitleValue] = useState(selectedNote?.title || '');
   const [textValue, setTextValue] = useState(selectedNote?.text || '');
   const [selectedTags, setSelectedTags] = useState<ITag[]>([]);
-  // const [manualTags, setManualTags] = useState<ITag[]>([]);
-
-  const selectedTagsIds = selectedTags.map((tag) => tag.id);
 
   const dispatch = useDispatch();
 
@@ -34,19 +31,30 @@ const NoteMaker = () => {
     setSelectedTags(selectedNote?.tags || []);
   }, [selectedNote]);
 
-  const createManualTags = () => {
+  const collectManualTagsIds = () => {
     const regTag = /#\w+/g;
     const matchesText = (textValue.match(regTag) || []).map((match) => match.substring(1));
     const manualTagsIds = [...matchesText];
-    const manualTags = manualTagsIds.map((tag) => ({
-      id: tag,
-      label: tag,
-    }));
-    console.log('manualTagsgggggg', manualTags);
-    return {
-      manualTags: [...manualTags],
-      manualTagsIds,
-    };
+    return manualTagsIds;
+  };
+
+  const createNewTagIds = () => {
+    const existingTagsIds = selectedTags.map((tag) => tag.id);
+    const manualTagsIds = collectManualTagsIds();
+    const allTagsIds = Array.from(new Set([...existingTagsIds, ...manualTagsIds]));
+
+    return allTagsIds;
+  };
+
+  const createTagsFromIds = (tagIds: string[]) => {
+    const tags = tagIds.map((tagId) => {
+      return {
+        id: tagId,
+        label: tagId,
+      };
+    });
+
+    return tags;
   };
 
   const saveNote = () => {
@@ -62,17 +70,16 @@ const NoteMaker = () => {
     }
 
     if (selectedNote) {
-      const manualTags = createManualTags().manualTags;
-      const allKindsOfTags = [...selectedTags, ...manualTags];
-      const manualTagsIds = createManualTags().manualTagsIds;
+      const allTagsIds = createNewTagIds();
+      const newArrOfTags = createTagsFromIds(allTagsIds);
 
       dispatch(
         updateNote({
           id: selectedNote.id,
           title: titleValue,
           text: textValue,
-          tags: allKindsOfTags,
-          tagsIds: [...selectedTagsIds, ...manualTagsIds],
+          tags: newArrOfTags,
+          tagsIds: allTagsIds,
         })
       );
       dispatch(selectNote(null));
@@ -80,19 +87,16 @@ const NoteMaker = () => {
     }
 
     if (!selectedNote && titleValue && textValue) {
-      const manualTags = createManualTags().manualTags;
-      const allKindsOfTags = [...selectedTags, ...manualTags];
-      const manualTagsIds = createManualTags().manualTagsIds;
-      console.log('manualTags', manualTags);
-      console.log('manualTagsIds', manualTagsIds);
-      console.log('allKindsOfTags', allKindsOfTags);
+      const allTagsIds = createNewTagIds();
+      const newArrOfTags = createTagsFromIds(allTagsIds);
+
       dispatch(
         addNote({
           id: nanoid(),
           title: titleValue,
           text: textValue,
-          tags: allKindsOfTags,
-          tagsIds: [...selectedTagsIds, ...manualTagsIds],
+          tags: newArrOfTags,
+          tagsIds: allTagsIds,
         })
       );
       setTitleValue('');
