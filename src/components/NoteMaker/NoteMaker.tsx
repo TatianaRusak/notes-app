@@ -59,10 +59,6 @@ const NoteMaker = () => {
     return tags;
   };
 
-  // const updateTagsForStore = (newTags) => {
-  //   const allTags = [...allTagsInStore, ...]
-  // }
-
   const saveNote = () => {
     if (titleValue === '') {
       dispatch(setTitleError(true));

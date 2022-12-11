@@ -54,6 +54,9 @@ export const noteSlice = createSlice({
     setFilteredNotes(state, action) {
       state.filteredNotes = action.payload;
     },
+    removeFromFilteredNotes(state, action) {
+      state.filteredNotes = state.filteredNotes.filter((note) => note.id !== action.payload);
+    },
     setTitleError(state, action) {
       state.formError.errorTitle = action.payload;
     },
@@ -96,6 +99,7 @@ export const {
   setFilteredNotes,
   setNoMatches,
   updateTags,
+  removeFromFilteredNotes,
 } = noteSlice.actions;
 
 export default noteSlice.reducer;

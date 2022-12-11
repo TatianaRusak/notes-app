@@ -33,7 +33,13 @@ const NotesBoard = () => {
 
   return (
     <div className="notesBoarder">
-      {noMatches ? (
+      {!notes.length && (
+        <p style={{ fontWeight: '800', textAlign: 'center', width: '100%', marginTop: '20px' }}>
+          Create your first note.
+        </p>
+      )}
+
+      {notes.length && noMatches ? (
         <p style={{ fontWeight: '800', textAlign: 'center', width: '100%', marginTop: '20px' }}>
           There are no matches!
         </p>

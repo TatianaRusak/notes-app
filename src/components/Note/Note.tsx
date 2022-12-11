@@ -1,7 +1,7 @@
 import React from 'react';
 import { INote } from '../../types';
 import './Note.scss';
-import { removeNote, selectNote } from '../../store/noteSlice';
+import { removeFromFilteredNotes, removeNote, selectNote } from '../../store/noteSlice';
 import { useDispatch } from 'react-redux';
 import useTypedSelector from '../../hooks/useTypedSelector';
 interface INoteProps {
@@ -15,6 +15,7 @@ const Note = ({ note }: INoteProps) => {
   const deleteNote = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     dispatch(removeNote(note.id));
+    dispatch(removeFromFilteredNotes(note.id));
     dispatch(selectNote(null));
   };
 

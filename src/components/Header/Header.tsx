@@ -3,7 +3,7 @@ import './Header.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { INote, ITag } from '../../types';
 import { setFilteredNotes, setNoMatches } from '../../store/noteSlice';
-import ReactSelect from 'react-select';
+import ReactSelect, { MultiValue } from 'react-select';
 import { useDispatch } from 'react-redux';
 
 let selectedTagsIds: string[] = [];
@@ -24,6 +24,36 @@ const Header = () => {
     }
   }, [dispatch, selectedTags, filteredNotes]);
 
+  const onClickHandle = (
+    tags: MultiValue<{
+      label: string;
+      value: string;
+    }>
+  ) => {
+    selectedTagsIds = tags.map((tag) => tag.label);
+    if (selectedTagsIds.length) {
+      dispatch(
+        setFilteredNotes(
+          allNotes.filter((note) => {
+            return (
+              selectedTagsIds.length === 0 ||
+              selectedTagsIds.every((tagId) => {
+                return note.tagsIds.includes(tagId);
+              })
+            );
+          })
+        )
+      );
+    } else {
+      dispatch(setFilteredNotes([]));
+    }
+    setSelectedTags(
+      tags.map((tag) => {
+        return { label: tag.label, id: tag.value };
+      })
+    );
+  };
+
   return (
     <header className="header">
       <div className="container">
@@ -33,36 +63,7 @@ const Header = () => {
             value={selectedTags.map((tag) => {
               return { label: tag.label, value: tag.id };
             })}
-            onChange={(tags) => {
-              selectedTagsIds = tags.map((tag) => tag.label);
-              dispatch(
-                setFilteredNotes(
-                  allNotes.filter((note) => {
-                    return (
-                      selectedTagsIds.length === 0 ||
-                      selectedTagsIds.every((tagId) => {
-                        return note.tagsIds.includes(tagId);
-                      })
-                    );
-                  })
-                )
-              );
-              setSelectedTags(
-                tags.map((tag) => {
-                  return { label: tag.label, id: tag.value };
-                })
-              );
-              setFilteredNotes(
-                allNotes.filter((note) => {
-                  return (
-                    selectedTagsIds.length === 0 ||
-                    selectedTagsIds.every((tagId) => {
-                      return note.tagsIds.includes(tagId);
-                    })
-                  );
-                })
-              );
-            }}
+            onChange={(tags) => onClickHandle(tags)}
             options={allTags.map((tag) => {
               return { label: tag.label, value: tag.id };
             })}
