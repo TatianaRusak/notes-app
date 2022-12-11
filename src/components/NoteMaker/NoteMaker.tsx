@@ -13,6 +13,7 @@ import { nanoid } from 'nanoid';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import CreatableReactSelect from 'react-select/creatable';
 import { ITag } from '../../types';
+import { HighlightWithinTextarea } from 'react-highlight-within-textarea';
 
 const NoteMaker = () => {
   const selectedNote = useTypedSelector((state) => state.selectedNote);
@@ -120,8 +121,8 @@ const NoteMaker = () => {
     dispatch(setTitleError(false));
   };
 
-  const onChangeTextHandle = (e: React.FormEvent<HTMLTextAreaElement>) => {
-    setTextValue(e.currentTarget.value);
+  const onChangeTextHandle = (value: string) => {
+    setTextValue(value);
     dispatch(setTextError(false));
   };
 
@@ -133,34 +134,31 @@ const NoteMaker = () => {
 
   return (
     <div className="note__maker">
-      <label>
-        Title
-        <input
-          type="text"
-          value={titleValue}
-          onChange={(e) => onChangeTitleHandle(e)}
-          className="note__maker-input"
-          required
-          placeholder="Title"
-        />
-        <p className="error-message">
-          {formError.errorTitle && <span>Enter note&apos;s title</span>}
-        </p>
-      </label>
-      <label>
-        Text
-        <textarea
-          rows={8}
+      <label htmlFor="note-title">Title</label>
+      <input
+        id="note-title"
+        type="text"
+        value={titleValue}
+        onChange={(e) => onChangeTitleHandle(e)}
+        className="note__maker-input"
+        required
+        placeholder="Title"
+      />
+      <p className="error-message">
+        {formError.errorTitle && <span>Enter note&apos;s title</span>}
+      </p>
+
+      <label htmlFor="note-text">Text</label>
+      <div className="note__maker-input textarea" id="note-text">
+        <HighlightWithinTextarea
+          highlight={createNewTagIds()}
           value={textValue}
-          onChange={(e) => onChangeTextHandle(e)}
-          className="note__maker-input"
-          required
+          onChange={(value) => onChangeTextHandle(value)}
+          // required
           placeholder="Note's text"
         />
-        <p className="error-message">
-          {formError.errorText && <span>Enter note&apos;s text</span>}
-        </p>
-      </label>
+      </div>
+      <p className="error-message">{formError.errorText && <span>Enter note&apos;s text</span>}</p>
 
       <div>
         <CreatableReactSelect
