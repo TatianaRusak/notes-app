@@ -5,6 +5,15 @@
   height: 100vh;
   background: lighten(rgb(126, 23, 126), 60%);
   padding: 20px 40px 10px;
+  @media (max-width: 768px) {
+    width: 280px;
+    min-width: 280px;
+    padding: 20px 20px 10px;
+  }
+  @media (max-width: 576px) {
+    width: 100%;
+    height: auto;
+  }
   label {
     text-transform: uppercase;
   }
@@ -63,4 +72,8 @@
 
 .public-DraftEditor-content {
   min-height: 160px;
+  @media (max-width: 576px) {
+    height: auto;
+    min-height: auto;
+  }
 }

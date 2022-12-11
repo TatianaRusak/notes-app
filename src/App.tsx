@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 import Header from './components/Header/Header';
 import NoteMaker from './components/NoteMaker/NoteMaker';
 import NotesBoarder from './components/NotesBoarder/NotesBoard';

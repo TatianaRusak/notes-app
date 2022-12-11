@@ -44,17 +44,17 @@ const NotesBoard = () => {
           There are no matches!
         </p>
       ) : (
-        <div className="container">
-          <ul className="notesBoarder__wrapper" onClick={onClickHandler}>
-            {notesToBeView?.map((note) => {
-              return (
-                <li key={note.id}>
-                  <Note note={note} />
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        // <div className="container">
+        <ul className="notesBoarder__wrapper" onClick={onClickHandler}>
+          {notesToBeView?.map((note) => {
+            return (
+              <li key={note.id} className="notesBoarder__item">
+                <Note note={note} />
+              </li>
+            );
+          })}
+        </ul>
+        // </div>
       )}
     </div>
   );

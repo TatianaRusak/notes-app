@@ -1,6 +1,10 @@
 .header {
   background-color: rgb(126, 23, 126);;
   height: 60px;
+  @media (max-width: 520px) {
+    height: auto;
+    padding-bottom: 10px;
+  }
   
   &__wrapper {
     display: flex;
@@ -8,6 +12,11 @@
     justify-content: space-between;
     align-items: center;
     height: 100%;
+    @media (max-width: 520px) {
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+    }
   }
   h1 {
     color: rgb(255, 255, 255);
@@ -17,5 +26,8 @@
   &__tags-select {
     line-height: 20px;
     width: 50%;
+    @media (max-width: 520px) {
+      width: 100%;
+    }
   }
 }
