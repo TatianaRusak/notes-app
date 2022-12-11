@@ -8,6 +8,7 @@ import {
   setTextError,
   selectNote,
   addTag,
+  updateTags,
 } from '../../store/noteSlice';
 import { nanoid } from 'nanoid';
 import useTypedSelector from '../../hooks/useTypedSelector';
@@ -18,7 +19,7 @@ import { HighlightWithinTextarea } from 'react-highlight-within-textarea';
 const NoteMaker = () => {
   const selectedNote = useTypedSelector((state) => state.selectedNote);
   const formError = useTypedSelector((state) => state.formError);
-  const allTags = useTypedSelector((state) => state.tags);
+  const allTagsInStore = useTypedSelector((state) => state.tags);
 
   const [titleValue, setTitleValue] = useState(selectedNote?.title || '');
   const [textValue, setTextValue] = useState(selectedNote?.text || '');
@@ -33,18 +34,18 @@ const NoteMaker = () => {
   }, [selectedNote]);
 
   const collectManualTagsIds = () => {
-    const regTag = /#\w+/g;
+    const regTag = /#[а-яА-ЯёЁa-zA-Z0-9]+/g;
     const matchesText = (textValue.match(regTag) || []).map((match) => match.substring(1));
     const manualTagsIds = [...matchesText];
     return manualTagsIds;
   };
 
-  const createNewTagIds = () => {
-    const existingTagsIds = selectedTags.map((tag) => tag.id);
-    const manualTagsIds = collectManualTagsIds();
-    const allTagsIds = Array.from(new Set([...existingTagsIds, ...manualTagsIds]));
+  const createNewNoteTagIds = () => {
+    const existingNoteTagsIds = selectedTags.map((tag) => tag.id);
+    const manualNoteTagsIds = collectManualTagsIds();
+    const allNoteTagsIds = Array.from(new Set([...existingNoteTagsIds, ...manualNoteTagsIds]));
 
-    return allTagsIds;
+    return allNoteTagsIds;
   };
 
   const createTagsFromIds = (tagIds: string[]) => {
@@ -58,6 +59,10 @@ const NoteMaker = () => {
     return tags;
   };
 
+  // const updateTagsForStore = (newTags) => {
+  //   const allTags = [...allTagsInStore, ...]
+  // }
+
   const saveNote = () => {
     if (titleValue === '') {
       dispatch(setTitleError(true));
@@ -70,36 +75,51 @@ const NoteMaker = () => {
       dispatch(setTextError(false));
     }
 
+    /*  -- update old note  */
     if (selectedNote) {
-      const allTagsIds = createNewTagIds();
-      const newArrOfTags = createTagsFromIds(allTagsIds);
+      const noteTagsIds = createNewNoteTagIds();
+      const newArrOfNoteTags = createTagsFromIds(noteTagsIds);
+
+      const oldTagsIdsInStore = allTagsInStore.map((tag) => tag.id);
+      const mewStoreTagsIds = Array.from(new Set([...noteTagsIds, ...oldTagsIdsInStore]));
+      const newStoreTags = createTagsFromIds(mewStoreTagsIds);
 
       dispatch(
         updateNote({
           id: selectedNote.id,
           title: titleValue,
           text: textValue,
-          tags: newArrOfTags,
-          tagsIds: allTagsIds,
+          tags: newArrOfNoteTags,
+          tagsIds: noteTagsIds,
         })
       );
       dispatch(selectNote(null));
       setSelectedTags([]);
+
+      dispatch(updateTags(newStoreTags));
     }
 
+    /*  -- create new note  */
     if (!selectedNote && titleValue && textValue) {
-      const allTagsIds = createNewTagIds();
-      const newArrOfTags = createTagsFromIds(allTagsIds);
+      const noteTagsIds = createNewNoteTagIds();
+      const newArrOfNoteTags = createTagsFromIds(noteTagsIds);
+
+      const oldTagsIdsInStore = allTagsInStore.map((tag) => tag.id);
+      const mewStoreTagsIds = Array.from(new Set([...noteTagsIds, ...oldTagsIdsInStore]));
+      const newStoreTags = createTagsFromIds(mewStoreTagsIds);
 
       dispatch(
         addNote({
           id: nanoid(),
           title: titleValue,
           text: textValue,
-          tags: newArrOfTags,
-          tagsIds: allTagsIds,
+          tags: newArrOfNoteTags,
+          tagsIds: noteTagsIds,
         })
       );
+
+      dispatch(updateTags(newStoreTags));
+
       setTitleValue('');
       setTextValue('');
       setSelectedTags([]);
@@ -151,7 +171,7 @@ const NoteMaker = () => {
       <label htmlFor="note-text">Text</label>
       <div className="note__maker-input textarea" id="note-text">
         <HighlightWithinTextarea
-          highlight={createNewTagIds().map((tagId) => `#${tagId}`)}
+          highlight={createNewNoteTagIds().map((tagId) => `#${tagId}`)}
           value={textValue}
           onChange={(value) => onChangeTextHandle(value)}
           placeholder="Note's text"
@@ -172,7 +192,7 @@ const NoteMaker = () => {
             );
           }}
           onCreateOption={onCreateOption}
-          options={allTags.map((tag) => {
+          options={allTagsInStore.map((tag) => {
             return { label: tag.label, value: tag.id };
           })}
           isMulti

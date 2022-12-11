@@ -66,6 +66,9 @@ export const noteSlice = createSlice({
     addTag(state, action) {
       state.tags.push(action.payload);
     },
+    updateTags(state, action) {
+      state.tags = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -92,6 +95,7 @@ export const {
   addTag,
   setFilteredNotes,
   setNoMatches,
+  updateTags,
 } = noteSlice.actions;
 
 export default noteSlice.reducer;
