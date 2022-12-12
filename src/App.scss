@@ -32,6 +32,6 @@ body, #root {
   @media (max-width: 576px) {
     flex-direction: column;
     gap: 10px;
-    min-height: min-content;
+    min-height: auto;
   }
 }
