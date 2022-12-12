@@ -1,4 +1,4 @@
-# Note App (testing project)
+# Note App (test project)
 
 **Deploy:**
 https://app-making-notes.netlify.app/
